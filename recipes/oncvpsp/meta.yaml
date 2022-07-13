@@ -1,0 +1,53 @@
+{% set name = "oncvpsp" %}
+{% set version = "4.0.1" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/oncvpsp/oncvpsp/archive/refs/tags/{{ version }}.tar.gz
+  sha256: 13b9162898878331c7fbfeef4f98f03e0262d430d6efd6a707ec5b930f8a5cbf
+
+build:
+  skip: true  # [not linux]
+  number: 0
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('fortran') }}
+    - make
+    - m4
+    - wget
+  host:
+    - libblas
+    - libcblas
+    - liblapack
+    - liblapacke
+    - fftw
+    - libxc ==4.3.*
+  run:
+    - fftw
+
+test:
+  commands:
+    - test -f ${PREFIX}/bin/oncvpsp.x
+    - test -f ${PREFIX}/bin/oncvpspnr.x
+    - test -f ${PREFIX}/bin/oncvpspr.x
+
+about:
+  home: http://www.mat-simresearch.com/
+  license: GPL-3.0-only
+  license_family: GPL
+  license_file: COPYING
+  summary: Optimized Norm-Conserving Vanderbilt PSeudoPotentials
+
+  description: |
+    oncvpsp is the software for generate Optimized Norm-Conserving Vanderbilt PSeudoPotentials
+  doc_url: https://github.com/oncvpsp/oncvpsp/tree/master/doc
+  dev_url: https://github.com/oncvpsp/oncvpsp/
+
+extra:
+  recipe-maintainers:
+    - unkcpz
